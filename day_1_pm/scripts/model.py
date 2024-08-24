@@ -68,8 +68,44 @@ class MaskRCNN_MODEL():
             cv2.putText(img, pred_cls[i], pt1, cv2.FONT_HERSHEY_SIMPLEX, text_size, (0, 255, 0), thickness=text_th)
         return img, pred_cls, masks
     
-    def process_image(self, img):
-        img, pred_cls, masks = self.instance_segmentation(img)
+    def draw_mask_color(self, img, pred_cls, boxes, masks):
+        for i in range(len(masks)):
+            rgb_mask = self.random_color_masks(masks[i])
+            img = cv2.addWeighted(img, 1, rgb_mask, 0.5, 0)
+        return img
+
+    def draw_labels(self, img, pred_cls, boxes, masks, text_size=1, text_th=1):
+        # For working with RGB images instead of BGR
+        for i in range(len(masks)):
+            pt1 = tuple(int(x) for x in boxes[i][0])
+            pt2 = tuple(int(x) for x in boxes[i][1])
+            cv2.putText(img, pred_cls[i], pt1, cv2.FONT_HERSHEY_SIMPLEX, text_size, (0, 255, 0), thickness=text_th)
+        return img
+    
+    def draw_bbox(self, img, pred_cls, boxes, masks, rect_th=1):
+        for i in range(len(masks)):
+            pt1 = tuple(int(x) for x in boxes[i][0])
+            pt2 = tuple(int(x) for x in boxes[i][1])
+            cv2.rectangle(img, pt1, pt2, color=(0, 255, 0), thickness=rect_th)
+        return img
+        
+
+    
+    def process_image(self, img, is_draw_labels=True, is_draw_boxes=True, is_draw_masks=True):
+        
+        pred_masks, pred_boxes, pred_class= self.get_prediction(img)
+        # convert to rgb to enable manipulation
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        
+        if is_draw_labels:
+            self.draw_labels(img, pred_class, pred_boxes, pred_masks)
+        
+        if is_draw_boxes:
+            self.draw_bbox(img, pred_class, pred_boxes, pred_masks)
+
+        if is_draw_masks:
+            self.draw_mask_color(img, pred_class, pred_boxes, pred_masks)
+        
         img = np.array(img)
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-        return img
+        return img, pred_class, pred_boxes, pred_masks
