@@ -1,5 +1,11 @@
-from camera import D435
-from model import MaskRCNN_MODEL
+import sys, os
+
+sys.path.append('../realsense_workshop/')
+from workshop_utils.camera import D435
+from workshop_utils.model import MaskRCNN_MODEL
+
+# from utils.camera import D435
+# from utils.model import MaskRCNN_MODEL
 
 import cv2
 
