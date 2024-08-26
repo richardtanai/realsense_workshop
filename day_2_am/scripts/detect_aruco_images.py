@@ -3,7 +3,7 @@ Sample Command:-
 python detect_aruco_images.py --image Images/test_image_1.png --type DICT_5X5_100
 '''
 import numpy as np
-from workshop_utils import ARUCO_DICT, aruco_display
+from workshop_utils.aruco_utils import ARUCO_DICT, aruco_display
 import argparse
 import cv2
 import sys

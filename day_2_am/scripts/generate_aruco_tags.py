@@ -6,7 +6,7 @@ python generate_aruco_tags.py --id 24 --type DICT_5X5_100 -o tags/
 
 import numpy as np
 import argparse
-from aruco_utils import ARUCO_DICT
+from workshop_utils.aruco_utils import ARUCO_DICT
 import cv2
 import sys
 

@@ -82,6 +82,9 @@ def draw_lines_from_bounds(img, depth_intrinsics, x_l, y_l, z_l, x_h, y_h, z_h):
     return image_with_line, top_pt
 
 class D435:
+    """
+    A wrapper class for the Intel Realsense D435 Camera
+    """
     def __init__(self, w = 640, h = 480, fps=15, bag_path=None) -> None:
         self.w = w
         self.h = h

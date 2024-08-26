@@ -5,7 +5,7 @@ python detect_aruco_video.py --type DICT_5X5_100 --camera False --video test_vid
 '''
 
 import numpy as np
-from aruco_utils import ARUCO_DICT, aruco_display
+from workshop_utils.aruco_utils import ARUCO_DICT, aruco_display
 import argparse
 import time
 import cv2
@@ -33,8 +33,8 @@ if ARUCO_DICT.get(args["type"], None) is None:
 	print(f"ArUCo tag type '{args['type']}' is not supported")
 	sys.exit(0)
 
-arucoDict = cv2.aruco.Dictionary_get(ARUCO_DICT[args["type"]])
-arucoParams = cv2.aruco.DetectorParameters_create()
+arucoDict = cv2.aruco.getPredefinedDictionary(ARUCO_DICT[args["type"]])
+arucoParams = cv2.aruco.DetectorParameters()
 
 while True:
 	ret, frame = video.read()
