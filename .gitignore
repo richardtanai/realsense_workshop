@@ -5,6 +5,7 @@ __pycache__/
 
 */references/*
 *.bag
+day_2_am/calibration_pics/*
 
 # C extensions
 *.so
